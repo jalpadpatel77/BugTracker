@@ -1,0 +1,538 @@
+﻿@model BugTracker.Models.Ticket
+@using BugTracker.Helper
+@{
+    ViewBag.Title = "DashBoard";
+}
+<style>
+    .accordion {
+        background-color: #1b2a47;
+        color: #fff;
+        cursor: pointer;
+        padding: 20px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 17px;
+        transition: 0.4s;
+    }
+
+        .active, .accordion:hover {
+            background-color: #1b2a47;
+        }
+
+    .panel {
+        padding: 0 18px;
+        background-color: #1b2a47;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease-out;
+    }
+
+    html, body {
+        height: 100%;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        background: #ccc;
+        background-repeat: no-repeat !important;
+        background-size: cover !important;
+        background-image: url('../../img/BackGround.png');
+    }
+
+    h2 {
+        font-family: 'Bookman Old Style';
+        color: aqua !important;
+    }
+
+    ul.tab-custon-design, ul.tab-review-design {
+        padding: 15px 35px;
+        width: 100%;
+        background: #1b2a47;
+    }
+
+    .hpanel .panel-body {
+        background: #1b2a47;
+        border-radius: 2px;
+        padding: 15px;
+        position: relative;
+        -webkit-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-size: 25px !important;
+        line-height: 1.42857143;
+        color: #ccc;
+        background-color: #fff;
+    }
+    .content-box .mg-t-box {
+    margin-top: 25px !important;
+}
+
+    .product-status-wrap table td {
+        padding: 9px 7px;
+        border-top: 1px solid #152036;
+        color: #fff;
+        font-size: 14px;
+        background: #1b2a47;
+    }
+
+    .product-status-wrap table th {
+        padding: 9px 7px;
+        border-top: 1px solid #152036;
+        color: #fff;
+        font-size: 14px;
+        background: #2b426f;
+    }
+
+    .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
+        color: antiquewhite;
+    }
+
+    select {
+        color: black;
+        background-color: cadetblue;
+    }
+
+    h3 {
+        color: midnightblue !important;
+    }
+</style>
+<!-- Mobile Menu end -->
+<br />
+<br /><br />
+<br />
+<div class="breadcome-area">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="breadcome-list">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="breadcomb-wp">
+
+                                <div class="breadcomb-ctn">
+                                    <h2>Ticket Dashboard for @Model.Title  </h2>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="widget-program-box mg-tb-30">
+
+    <div class="container-fluid">
+        <div class="row">
+            @*Show Ticket Priority*@
+
+            <!--Show TicketStatus-->
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                <div class="hpanel responsive-mg-b-30">
+                    <button class="accordion fa fa-tasks"> Ticket Status</button>
+                    <div class="panel">
+                        <div class="text-center content-box">
+
+                            @*<div class="m icon-box">
+                            <i class="fa fa-comment-o" aria-hidden="true"></i>
+                        </div>*@
+                            <div class="small mg-t-box">
+                                @Model.TicketStatus.StatusName
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*Ticket Type*@
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                <div class="hpanel responsive-mg-b-30">
+                    <button class="accordion fa fa-sitemap"> Ticket Type</button>
+
+                    <div class="panel">
+                        <div class="text-center content-box">
+                            @*<h4 class="m-b-xs">Ticket History</h4>*@
+
+                            <div class="small mg-t-box">
+                                @Html.DisplayFor(model => model.TicketType.Name)
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*Priority*@
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                <div class="hpanel responsive-mg-b-30">
+                    <button class="accordion fa fa-flag-checkered">  Ticket Priority</button>
+
+                    <div class="panel">
+                        <div class="text-center content-box">
+                            @*<h4 class="m-b-xs">Ticket History</h4>*@
+                            <div class="small mg-t-box">
+                                @Model.TicketPriority.Name
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <button class="accordion fa fa-users ">  My Team</button>
+                <div class="panel">
+                    <div class="product-status-wrap">
+                        <table class="table">
+                            <tr>
+
+                                <th>
+                                    Developer
+                                </th>
+                                <th>
+                                    Submitter
+                                </th>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(model => model.AssignedToUser.FullName)
+
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.OwnerUser.FullName)
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+     </div>
+</div>
+<div class="widget-program-box mg-tb-30">
+
+    <div class="container-fluid">
+        <div class="row">
+            @*Show Ticket Attachments*@
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <div class="hpanel responsive-mg-b-30">
+                    <button class="accordion fa fa-file"> Ticket Attachments</button>
+                    <div class="panel">
+                        <div class="text-center content-box">
+                            <div class="small mg-t-box">
+
+                                @foreach (var attachment in Model.TicketAttachments)
+                                {
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            @attachment.User.FullName
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            @attachment.Description
+
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <a class="btn btn-primary btn-block" href="@attachment.FilePath">Show Attachment</a>
+                                            @*<button type="submit" class="btn btn-primary">Delete </button>*@
+                                        </div>
+                                    </div>
+
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Show Comments-->
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <div class="hpanel responsive-mg-b-30">
+                    <button class="accordion fa fa-comment-o"> Ticket Comments</button>
+                    <div class="panel">
+                        <div class="text-center content-box">
+
+                            <div class="small mg-t-box">
+
+                                @foreach (var ticketComment in Model.TicketComments.OrderByDescending(comment => comment.Created))
+                                {
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            Posted by @ticketComment.Author.FullName
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            @ticketComment.CommentBody
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*Histories*@
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <div class="hpanel responsive-mg-b-30">
+                    <button class="accordion  fa fa-history"> Ticket History</button>
+
+                    <div class="panel">
+                        <div class="text-center content-box">
+                            @*<h4 class="m-b-xs">Ticket History</h4>*@
+
+
+                            <div class="small mg-t-box">
+
+                                @foreach (var ticketHistory in Model.TicketHistories.OrderByDescending(history => history.Id))
+                                {
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            @ticketHistory.User.FullName
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            Property Name:  @ticketHistory.PropertyName
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            Old Value:  @ticketHistory.OldValue
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            New Value: @ticketHistory.NewValue
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*Notifications*@
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <div class="hpanel responsive-mg-b-30">
+                    <button class="accordion fa fa-bell-o"> Ticket Notification</button>
+
+                    <div class="panel">
+                        <div class="text-center content-box">
+                            @*<h4 class="m-b-xs">Ticket History</h4>*@
+                            <div class="small mg-t-box">
+                                @foreach (var ticketNotification in Model.TicketNotifications.OrderByDescending(history => history.Id))
+                                {
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            Receipient Name: @ticketNotification.Recipient.FirstName
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            Sender Name:  @ticketNotification.Sender.FirstName
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            Subject:  @ticketNotification.Subject
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                          Description:  @ticketNotification.NotificationBody
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="widget-program-box mg-tb-30">
+    <div class="container-fluid">
+        <div class="row">
+            @*Create Ticket Attachments*@            @*Create Ticket Comments*@
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <div class="product-payment-inner-st">                   
+                    <ul id="myTab4" class="tab-review-design">
+                       
+                        <li class="active"><a href="#description">Add Attachment</a></li>
+                        <li><a href="#reviews"> Add Comment</a></li>
+
+                    </ul>
+                    <div id="myTabContent" class="tab-content custom-product-edit">
+                       
+                        <div class="product-tab-list tab-pane fade active in" id="description">
+                            <div class="row">
+                                <div class="col-lg-3"></div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <div class="review-content-section">
+                                        <div class="demo-container">
+                                            <div class="card-wrapper"></div>
+                                            <div class="text-center content-box">
+                                                <div class="m icon-box">
+                                                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                                </div>
+                                                <p class="small mg-t-box">
+                                                    @using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post,
+                                                                new { enctype = "Multipart/form-data" }))
+                                                    {
+                                                        @Html.AntiForgeryToken()
+                                                        @Html.Hidden("TicketId", Model.Id)
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                @Html.TextBox("AttachmentTitle", null,
+                                                               new { @class = "form-control", placeholder = "Title" })
+
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                @Html.TextBox("AttachmentDescription", null,
+                                                               new { @class = "form-control", placeholder = "Description" })
+
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                @Html.TextBox("FilePath", null, new { @class = "form-control", type = "file" })
+
+                                                            </div>
+                                                        </div>
+
+                                                        <br />
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <button type="submit" class="btn btn-primary">Add Attachment</button>
+
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3"></div>
+                            </div>
+                        </div>
+                        <div class="product-tab-list tab-pane fade" id="reviews">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="review-content-section">
+                                        <div class="row">
+                                            <div class="col-lg-3"></div>
+                                            <div class="col-lg-6">
+                                                <div class="text-center content-box">
+                                                    @*<h4 class="m-b-xs">Add Comment</h4>*@
+
+                                                    <div class="m icon-box">
+                                                        <i class="fa fa-comment-o" aria-hidden="true"></i>
+                                                    </div>
+                                                    <p class="small mg-t-box">
+                                                        @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post))
+                                                        {
+                                                            @Html.AntiForgeryToken()
+
+                                                            @Html.Hidden("TicketId", Model.Id)
+
+                                                            <div class="row">
+                                                                <div class="col-md-12 col-sm-12 col-lg-12">
+                                                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    @Html.TextBox("CommentBody", null,
+                                                                   new { @class = "form-control", placeholder = "Leave your Comment Here" })
+
+                                                                </div>
+                                                            </div>
+
+                                                            <br />
+                                                            <br />
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <button type="submit" class="btn btn-primary">Post Comment</button>
+
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+            }
+        });
+    }
+</script>
+<script src="~/Scripts/plugins.js"></script>
+<!-- main JS       = -->
+<script src="~/Scripts/main.js"></script>
+<script src="~/js/jquery.dataTables.min.js"></script>
+<script>
+    $('.table').DataTable();
+</script>
+<script>
+    $('#mytable').DataTable();
+</script>
+
+@*@Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")*@
+
+
+@*</html>*@

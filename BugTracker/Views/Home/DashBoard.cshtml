@@ -1,0 +1,316 @@
+﻿@model BugTracker.ViewModels.BugDataViewModel
+@using BugTracker.Models
+@using BugTracker.ViewModels
+@using BugTracker.Helper
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "DashBoard";
+}
+@{  ApplicationDbContext db = new ApplicationDbContext();
+    var unassignedTickets = db.Tickets.Where(t => t.AssignedToUser.Equals(null)).ToList();
+    var allTickets = db.Tickets.ToList();
+}
+<style>
+    /*path[Attributes Style] {
+    fill:red !important;
+    stroke: red !important;
+    d: path("M 204.5 278.333 A 107.333 107.333 0 0 0 282.152 96.9012");
+    stroke-width: 2;
+    opacity: 1;
+}*/
+
+    .ChartHR {
+        border: 5px solid;
+        border-radius: 5px;
+        background: linear-gradient(black,red);
+    }
+
+    .panel-body a {
+        font-size: 20px;
+        color: #fff;
+        margin-top: 15px;
+    }
+
+    .mychart {
+        height: 250px;
+    }
+
+    .html, body {
+        height: 100%;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        background: #ccc;
+        background-repeat: no-repeat !important;
+        background-size: cover !important;
+        background-image: url('../../img/BackGround.png');
+    }
+
+    /*.h3 {
+        color: midnightblue !important;
+    }*/
+
+    .h2 {
+        font-family: 'Bookman Old Style';
+        color: aqua !important;
+    }
+
+    ul.tab-custon-design, ul.tab-review-design {
+        padding: 15px 35px;
+        width: 100%;
+        background: #1b2a47
+    }
+
+    h4 {
+        color: #fff;
+    }
+
+    .hpanel .panel-body {
+        background: #1b2a47;
+        border-radius: 2px;
+        padding: 15px;
+        position: relative;
+        -webkit-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+    }
+
+    .stats-icon i, .icon-box i {
+        font-size: 30px;
+        color: #fff;
+    }
+
+    .body {
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-size: 14px !important;
+        line-height: 1.42857143;
+        background-color: #fff;
+    }
+</style><br /><br />
+<br /><br /> <br />
+<div class="breadcome-area">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="breadcome-list">
+
+                    <div class="row">
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="breadcomb-wp">
+
+                                <div class="breadcomb-ctn">
+                                    @if (Request.IsAuthenticated) // checks that if user is logged in
+                                    {
+                                        var userId = User.Identity.GetUserId();
+                                      
+                                        var user = db.Users.Find(userId);
+
+                                        <h2><span class="min-dtn">@user.FullName-</span> DashBoard</h2>
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="hpanel responsive-mg-b-30">
+                <div class="panel-body">
+                    <div class="stats-icon pull-right">
+                        <i class="fa fa-cubes" aria-hidden="true"></i>
+                    </div>
+                    <div class="stats-title pull-left">
+                        <h4>Total Projects</h4>
+                        <div>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <h4>   @Model.myProjects.Count()</h4>
+                                <a title="Index Of My Projects" href="@Url.Action("Index", "Projects")"><span class="mini-sub-pro">View Projects</span></a>
+                                <i class="fa fa-arrow-circle-o-right" Style="color:aliceblue;" aria-hidden="true"></i>
+                            }
+                            else
+                            {
+                                var userId = User.Identity.GetUserId();
+                                var ProjHelper = new ProjectsHelper();
+                                <h4> @ProjHelper.ListUserProjects(userId).Count()</h4>
+                                <a title="Index Of My Projects" href="@Url.Action("MyProjects", "Projects")"><span class="mini-sub-pro">View Projects</span></a>
+                                <i class="fa fa-arrow-circle-o-right" Style="color:aliceblue;" aria-hidden="true"></i>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="hpanel responsive-mg-b-30">
+                <div class="panel-body">
+                    <div class="stats-icon pull-right">
+                        <i class="fa fa-ticket" aria-hidden="true"></i>
+                    </div>
+                    <div class="stats-title pull-left">
+                        <h4 class="title text-center">Total Tickets</h4>
+                        <div>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <h4>   @Model.myTickets.Count()</h4>
+                                <a title="Index Of My Projects" href="@Url.Action("Index", "Tickets")"><span class="mini-sub-pro">View Tickets</span></a>
+                                <i class="fa fa-arrow-circle-o-right" Style="color:aliceblue;" aria-hidden="true"></i>
+                            }
+                            else
+                            {
+                                var userId = User.Identity.GetUserId();
+                                var myTickets = new TicketDecisionHelper();
+                                <h4> @myTickets.CountMyTickets(userId)</h4>
+                                <a title="Index Of My Projects" href="@Url.Action("MyIndex", "Tickets")"><span class="mini-sub-pro">View Tickets</span></a>
+                                <i class="fa fa-arrow-circle-o-right" Style="color:aliceblue;" aria-hidden="true"></i>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<br /> <br />
+<div class="widgets-programs-area mg-t-15">
+    <div class="container-fluid">
+        <div class="row">
+            @*Status Chart*@
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div id="pie-chart">
+                    <h3 class="title text-center">Ticket Status</h3>
+                    <div id="MorrisChart1" height="100px"></div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div class="row">
+                    <div class="hpanel ">
+                        <div class="panel-body">
+                            <div class="stats-icon pull-right">
+                                <i class="fa fa-cubes" aria-hidden="true"></i>
+                            </div>
+                            <div class="stats-title pull-left">
+
+                                <div>
+
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <div class="stat-text"><h4>TOTAL IMMEDIATE TICKETS</h4></div>
+                                    }
+                                    else
+                                    {
+                                        <h4>MY IMMEDIATE TICKETS</h4>
+                                    }
+                                    @{
+
+                                        var user1 = User.Identity.GetUserId();
+                                        var myImmTickets = new TicketDecisionHelper();
+                                        <h4>@myImmTickets.CountMyImmediateTickets(user1)</h4>
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <br />
+            </div>
+            @* Ticket Type Chart*@
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div id="pie-chart">
+                    <h3 class="title text-center">Ticket Type</h3>
+                    <div id="MorrisChart2" height="100px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+
+
+@section scripts{
+    <script>
+             $(function(){
+              $.post('@Url.Action("TicketStatusChartData", "Chart")').then(function(response){
+                new Morris.Donut({
+                element: 'MorrisChart1',
+                   data: response,
+                 colors:['#fd7e14',"#2ed8b6","#4099ff"],
+                gridTextSize: 10,
+                xLabelAngle: 65,
+                xkey: 'label',
+                ykeys: ['value'],
+                labels: ['Ticket Count'],
+                resize:true
+                  });
+               });
+            });
+    </script>
+
+    <script>
+             $(function(){
+              $.post('@Url.Action("TicketTypeData", "Chart")').then(function(response){
+                new Morris.Donut({
+                element: 'MorrisChart2',
+                data: response,
+               colors:['#fd7e14',"#2ed8b6","#4099ff"],
+                gridTextSize: 10,
+                xLabelAngle: 65,
+                xkey: 'label',
+                ykeys: ['value'],
+                labels: ['Ticket Count'],                 
+                resize:true
+                  });
+
+               });
+            });
+    </script>
+}
+
+@*<script>
+    var chart2 = $("#piechart");
+    var piechartData = '@Url.Action("TicketTypeData","Chart")'
+
+        $.post(piechartData).then(function (response) {
+        var piechart =  new Chart(chart2, {
+                type: 'pie',
+                data: {
+                    labels: [response.label],
+                    datasets: [{
+                        label: 'pie Chart',
+                        backgroundColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(255, 159, 64)',
+                            'rgb(255, 205, 86)'
+                        ],
+                        data: [response.value]
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        });
+
+    </script>*@
+
+@*});*@
+
+
+
+
+
+
+
+

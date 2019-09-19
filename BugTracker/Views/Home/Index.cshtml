@@ -1,0 +1,198 @@
+﻿@{
+    Layout = null;
+}
+@using BugTracker.Models
+@model LoginViewModel
+
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+
+    <style>
+        html, body {
+            height: 100%;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 400;
+            background: #ccc;
+            background-repeat: no-repeat !important;
+            background-size: cover !important;
+            background-image: url('../../img/BackGround.png') !important;
+        }
+
+        h2 {
+            font-family: 'Bookman Old Style';
+            color: midnightblue !important;
+        }
+
+        .btn {
+            font-size: 20px !important;
+            font-weight: 700 !important;
+        }
+    </style>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>DeBug-Me</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- favicon
+        ============================================ -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/img/BugIcon2.png">
+    <!-- Google Fonts
+        ============================================ -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
+    <!-- Bootstrap CSS
+        ============================================ -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap CSS
+        ============================================ -->
+    <link href="~/css/font-awesome.min.css" rel="stylesheet" />
+
+    <!-- owl.carousel CSS
+        ============================================ -->
+    <link href="~/css/owl.carousel.css" rel="stylesheet" />
+    <link href="~/css/owl.theme.css" rel="stylesheet" />
+    <link href="~/css/owl.transitions.css" rel="stylesheet" />
+    <!-- animate CSS
+        ============================================ -->
+    <link href="~/css/animate.css" rel="stylesheet" />
+    <!-- normalize CSS
+        ============================================ -->
+    <link href="~/css/normalize.css" rel="stylesheet" />
+    <!-- main CSS
+        ============================================ -->
+    <link href="~/css/main.css" rel="stylesheet" />
+    <!-- morrisjs CSS
+        ============================================ -->
+    @*<link href="~/css/morrisjs/morris.css" rel="stylesheet" />*@
+    <!-- mCustomScrollbar CSS
+        ============================================ -->
+    <link href="~/css/scrollbar/jquery.mCustomScrollbar.min.css" rel="stylesheet" />
+    <!-- metisMenu CSS
+        ============================================ -->
+    <link href="~/css/metisMenu/metisMenu-vertical.css" rel="stylesheet" />
+    <link href="~/css/metisMenu/metisMenu.min.css" rel="stylesheet" />
+    <!-- forms CSS
+        ============================================ -->
+    <link href="~/css/form/all-type-forms.css" rel="stylesheet" />
+    <!-- style CSS
+        ============================================ -->
+    <link href="~/Content/style.css" rel="stylesheet" />
+
+    <!-- responsive CSS
+        ============================================ -->
+    <link href="~/Content/responsive.css" rel="stylesheet" />
+    <!-- modernizr JS
+        ============================================ -->
+    <script src="~/js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="back-link back-backend">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12"></div>
+            <div class="col-md-4 col-md-4 col-sm-4 col-xs-12 ">
+                <div class="text-center m-b-md  custom-login">
+                    <h2>Welcome to DeBug-Me </h2>
+                    <h2> <img src="~/img/BugIcon2.png" /></h2>
+                </div><br /><br />
+                <div class="hpanel">
+                    <div class="panel-body">
+
+                        @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="form-group">
+                                <label class="control-label" for="username">Username</label>
+                                <input type="email" placeholder="example@gmail.com" title="Please enter your email" required="" value="" name="email" id="username" class="form-control">
+                                <span class="help-block small">Enter user Email</span>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="password">Password</label>
+                                <input type="password" title="Please enter your password" placeholder="Please enter your password" required="" value="" name="password" id="password" class="form-control">
+                                <span class="help-block small">Enter strong password</span>
+                            </div>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+
+                                        <button class="btn btn-primary btn-block loginbtn" style="margin:15px 0px 0px ;">Login</button>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <a class="btn btn-danger btn-block" href="@Url.Action("Register","Account")">Register</a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <a class="btn btn-danger btn-block " href="@Url.Action("ForgotPassword","Account")">Forgot Password</a>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <a class="btn btn-primary btn-block" href="@Url.Action("DemoUser","Home")">Login as Guest</a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    @*<div class="row">
+            <div class="form-group col-md-6">
+                <button class="btn btn-warning btn-block loginbtn">Login</button>
+            </div>
+            <div class="form-group col-md-6">
+                <a class="btn btn-primary btn-block" href="@Url.Action("Register","Account")">Register</a>
+            </div>
+        </div>*@
+
+    <!-- jquery
+        ============================================ -->
+
+    <script src="~/js/vendor/jquery-1.11.3.min.js"></script>
+    <!-- bootstrap JS       -->
+    <script src="~/js/bootstrap.min.js"></script>
+    <!-- wow JS ================== -->
+    <script src="~/js/wow.min.js"></script>
+    <!-- price-slider JS ===================== -->
+    <script src="~/js/jquery-price-slider.js"></script>
+    <!-- meanmenu JS
+        ============================================ -->
+    <script src="~/js/jquery.meanmenu.js"></script>
+    <!-- owl.carousel JS       ============ -->
+    <script src="~/js/owl.carousel.min.js"></script>
+    <!-- sticky JS      ======== -->
+    <script src="~/js/jquery.sticky.js"></script>
+    <!-- scrollUp JS       ================ -->
+    <script src="~/js/jquery.scrollUp.min.js"></script>
+    <!-- mCustomScrollbar JS        ===== -->
+    <script src="~/js/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="~/js/scrollbar/mCustomScrollbar-active.js"></script>
+    <!-- metisMenu JS       ====== -->
+    <script src="~/js/metisMenu/metisMenu-active.js"></script>
+    <script src="~/js/metisMenu/metisMenu.min.js"></script>
+    <!-- tab JS        ======== -->
+    <script src="~/js/tab.js"></script>
+    <!-- icheck JS       = -->
+    <script src="~/js/icheck/icheck.min.js"></script>
+    <script src="~/js/icheck/icheck-active.js"></script>
+    <!-- plugins JS        ========== -->
+    <script src="~/js/plugins.js"></script>
+    <!-- main JS        =========== -->
+    <script src="~/js/main.js"></script>
+</body>
+
+</html>

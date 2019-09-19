@@ -1,0 +1,236 @@
+﻿ @{
+    Layout = null;
+}
+@using BugTracker.Models
+@model RegisterViewModel
+
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <style>
+        .html, body {
+            height: 100%;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 400;
+            background-repeat: no-repeat !important;
+             background: #ccc;
+            background-image: url('../../img/BackGround.png') !important;
+            background-size: cover !important;
+        }
+         h2 {
+            font-family: 'Bookman Old Style';
+            color:darkblue !important;
+        }
+
+        .hpanel .panel-body {
+            background-color:azure !important;
+            border-radius: 2px;
+            padding: 30px !important;
+            position: relative;
+            -webkit-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+            /*background-image: url('../../img/code.png');*/
+        }
+    </style>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>DeBug-Me</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- favicon
+        ============================================ -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/img/BugIcon2.png">
+    <!-- Google Fonts
+        ============================================ -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
+    <!-- Bootstrap CSS
+        ============================================ -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Bootstrap CSS
+        ============================================ -->
+    <link href="~/css/font-awesome.min.css" rel="stylesheet" />
+
+    <!-- owl.carousel CSS
+        ============================================ -->
+
+    <link rel="stylesheet" href="~/css/owl.carousel.css">
+    <link rel="stylesheet" href="~/css/owl.theme.css">
+    <link rel="stylesheet" href="~/css/owl.transitions.css">
+    <!-- animate CSS
+        ============================================ -->
+    <link href="~/css/animate.css" rel="stylesheet" />
+
+    <!-- normalize CSS
+        ============================================ -->
+
+    <link href="~/css/normalize.css" rel="stylesheet" />
+    <!-- main CSS
+        ============================================ -->
+    <link href="~/css/main.css" rel="stylesheet" />
+
+    <!-- morrisjs CSS
+        ============================================ -->
+    <link href="~/css/morrisjs/morris.css" rel="stylesheet" />
+    <!-- mCustomScrollbar CSS
+        ============================================ -->
+    <link href="~/css/scrollbar/jquery.mCustomScrollbar.min.css" rel="stylesheet" />
+    <!-- metisMenu CSS
+       ============================================ -->
+    <link href="~/css/metisMenu/metisMenu-vertical.css" rel="stylesheet" />
+    <link href="~/css/metisMenu/metisMenu.min.css" rel="stylesheet" />
+
+    <!-- forms CSS
+        ============================================ -->
+    <link href="~/css/form/all-type-forms.css" rel="stylesheet" />
+    <!-- style CSS
+      ============================================ -->
+    <link href="~/Content/style.css" rel="stylesheet" />
+
+    <!-- responsive CSS
+        ============================================ -->
+    <link href="~/Content/responsive.css" rel="stylesheet" />
+
+    <!-- modernizr JS
+        ============================================ -->
+    <script src="~/js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+
+<body>
+  
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="back-link back-backend">
+                    <a href="@Url.Action("Login","Account")" class="btn btn-primary">Back to Login </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
+            <div class="col-md-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="text-center custom-login"><br/>
+                <br/><br />
+                    <h2>Register as new user!</h2>
+                </div>
+                <div class="hpanel">
+                    <div class="panel-body">
+
+                       @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+                       {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary("", new { @class = "text-danger" })
+                         <div class="row">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    @Html.LabelFor(m => m.FirstName, new { @class = "control-label" })
+
+                                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                                </div>
+                                <div class="form-group col-md-6">
+                                    @Html.LabelFor(m => m.LastName, new { @class = "control-label " })
+
+                                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    @Html.LabelFor(m => m.DisplayName, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control" })
+                                </div>
+                                <div class="form-group col-md-6">
+                                    @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                </div>
+                            </div>
+                           
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                </div>
+                                <div class="form-group col-lg-6">
+
+                                    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label" })
+                                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+
+
+                                    @Html.LabelFor(model => model.AvatarUrl, null, htmlAttributes: new { @class = "control-label " })
+                                    @*<div class="col-md-10">*@
+                                    <input type="file" name="Avatar" />
+                                    @*</div>*@
+                                </div>
+                            </div>
+
+                          </div>
+                            <div class="text-center">
+                                <button class="btn btn-primary loginbtn">Register</button>
+                                <button class="btn btn-danger">Cancel</button>
+                            </div>
+
+                        }
+                        </div>
+                </div>
+            </div>
+           
+        </div>
+        
+    </div>
+    @*@Html.LabelFor(m => m.AvatarUrl, new { @class = "col-md-2 control-label" })
+        @Html.TextBoxFor(m => m.AvatarUrl, new { @class = "form-control" })*@
+    <!-- jquery
+        ============================================ -->
+    <script src="~/js/vendor/jquery-1.11.3.min.js"></script>
+    <!-- bootstrap JS
+        ============================================ -->
+    <script src="~/js/bootstrap.min.js"></script>
+
+    <!-- wow JS
+        ============================================ -->
+    <script src="~/js/wow.min.js"></script>
+    <!-- price-slider JS
+       ============================================ -->
+    <script src="~/js/jquery-price-slider.js"></script>
+
+    <!-- meanmenu JS
+        ============================================ -->
+    <script src="~/js/jquery.meanmenu.js"></script>
+    <!-- owl.carousel JS
+        ============================================ -->
+    <script src="~/js/owl.carousel.min.js"></script>
+    <!-- sticky JS
+        ============================================ -->
+    <script src="~/js/jquery.sticky.js"></script>
+    <!-- scrollUp JS
+        ============================================ -->
+    <script src="~/js/jquery.scrollUp.min.js"></script>
+    <!-- mCustomScrollbar JS
+        ============================================ -->
+    <script src="~/js/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="~/js/scrollbar/mCustomScrollbar-active.js"></script>
+    <!-- metisMenu JS
+        ============================================ -->
+    <script src="~/js/metisMenu/metisMenu.min.js"></script>
+    <script src="~/js/metisMenu/metisMenu-active.js"></script>
+    <!-- tab JS
+        ============================================ -->
+    <script src="~/js/tab.js"></script>
+    <!-- icheck JS
+        ============================================ -->
+    <script src="~/js/icheck/icheck.min.js"></script>
+    <script src="~/js/icheck/icheck-active.js"></script>
+    <!-- plugins JS
+        ============================================ -->
+    <script src="~/js/plugins.js"></script>
+    <!-- main JS
+        ============================================ -->
+    <script src="~/js/main.js"></script>
+</body>
+
+</html>

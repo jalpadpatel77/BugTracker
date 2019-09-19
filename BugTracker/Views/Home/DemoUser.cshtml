@@ -1,0 +1,260 @@
+﻿@{
+    Layout = null;
+}
+@using BugTracker.Models
+@model LoginViewModel
+
+<!doctype html>
+
+<html class="no-js" lang="en">
+
+<head>
+    <style>
+        .html, body {
+            height: 100%;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 400;
+            background: #ccc;
+            background-repeat: no-repeat !important;
+            background-size: cover !important;
+            background-image: url('../../img/BackGround.png')!important;
+        }
+        .btn-group-sm>.btn, .btn-sm {
+    padding: 5px 10px;
+    font-size: 16px !important;
+    line-height: 1.5;
+    color:black !important;
+    border-radius: 3px;
+}
+    </style>
+
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- favicon
+    ============================================ -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/img/BugIcon2.png">
+    <!-- Google Fonts
+    ============================================ -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
+    <!-- Bootstrap CSS
+    ============================================ -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap CSS
+    ============================================ -->
+    <link href="~/css/font-awesome.min.css" rel="stylesheet" />
+
+    <!-- owl.carousel CSS
+    ============================================ -->
+    <link href="~/css/owl.carousel.css" rel="stylesheet" />
+    <link href="~/css/owl.theme.css" rel="stylesheet" />
+    <link href="~/css/owl.transitions.css" rel="stylesheet" />
+    <!-- animate CSS
+    ============================================ -->
+    <link href="~/css/animate.css" rel="stylesheet" />
+    <!-- normalize CSS
+    ============================================ -->
+    <link href="~/css/normalize.css" rel="stylesheet" />
+    <!-- main CSS
+    ============================================ -->
+    <link href="~/css/main.css" rel="stylesheet" />
+    <!-- morrisjs CSS
+    ============================================ -->
+    <link href="~/css/morrisjs/morris.css" rel="stylesheet" />
+    <!-- mCustomScrollbar CSS
+    ============================================ -->
+    <link href="~/css/scrollbar/jquery.mCustomScrollbar.min.css" rel="stylesheet" />
+    <!-- metisMenu CSS
+    ============================================ -->
+    <link href="~/css/metisMenu/metisMenu-vertical.css" rel="stylesheet" />
+    <link href="~/css/metisMenu/metisMenu.min.css" rel="stylesheet" />
+    <!-- forms CSS
+    ============================================ -->
+    <link href="~/css/form/all-type-forms.css" rel="stylesheet" />
+    <!-- style CSS
+    ============================================ -->
+    <link href="~/Content/style.css" rel="stylesheet" />
+
+    <!-- responsive CSS
+    ============================================ -->
+    <link href="~/Content/responsive.css" rel="stylesheet" />
+    <!-- modernizr JS
+    ============================================ -->
+    <script src="~/js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+
+<body>
+    <br />
+    <br />
+    <br />
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="back-link back-backend">
+                    <a href="@Url.Action("Login","Account")" class="btn btn-primary">Back to Login </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12"></div>
+            <div class="col-md-4 col-md-4 col-sm-4 col-xs-12 ">
+                <div class="text-center m-b-md  custom-login">
+                    <h2>Welcome to DeBug-Me </h2>
+                    <h2> <img src="~/img/BugIcon2.png" /></h2>
+                    <h2>Login as Demo-Users </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="widget-program-box mg-tb-30">
+        <div class="container-fluid">
+            <div class="row">
+                @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("DemoEmail", "DemoAdminEmail")
+
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                        <div class="hpanel responsive-mg-b-30">
+                            <div class="panel-body">
+                                <div class="text-center content-box">
+                                    <h2 class="m-b-xs">Admin</h2>
+                                    @*<p class="font-bold text-success">Lorem ipsum</p>*@
+                                    <div class="m icon-box">
+                                        <i class="fa fa-empire" aria-hidden="true"></i>
+                                        <p>____________________</p>
+                                    </div>
+
+                                    <p class="small mg-t-box">
+                                        Admin can assign or unassign users to and from roles.
+                                        Admin can create new project.
+                                        Admin can access any Projects or any Tickets.
+
+                                    </p>
+                                    <button type="submit" class="btn btn-success btn-sm">Login as Admin</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("DemoEmail", "DemoProjectManagerEmail")
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                        <div class="hpanel responsive-mg-b-30">
+                            <div class="panel-body">
+                                <div class="text-center content-box">
+                                    <h2 class="m-b-xs">Project Manager</h2>
+
+                                    <div class="m icon-box">
+                                        <i class="fa fa-black-tie " aria-hidden="true"></i>
+                                        <p>____________________</p>
+                                    </div>
+                                    <p class="small mg-t-box">
+                                        Project Manager works on the tickets they are assigned to.They are able to assign developers to their project tickets
+                                    </p>
+                                    <button class="btn btn-info btn-sm">Login as Project Manager</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("DemoEmail", "DemoDeveloperEmail")
+
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                        <div class="hpanel responsive-mg-b-30">
+                            <div class="panel-body">
+                                <div class="text-center content-box">
+                                    <h2 class="m-b-xs">Developer</h2>
+
+                                    <div class="m icon-box">
+                                        <i class="fa fa-cogs" aria-hidden="true"></i>
+                                        <p>____________________</p>
+                                    </div>
+                                    <p class="small mg-t-box">
+                                        Developers are able to view projects and tickets they are assigned to. So they can fix the Tickets they are assigned to.
+                                    </p>
+                                    <button class="btn btn-warning btn-sm">Login as Developer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("DemoEmail", "DemoSubmitterEmail")
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                        <div class="hpanel">
+                            <div class="panel-body">
+                                <div class="text-center content-box">
+                                    <h2 class="m-b-xs">Submitter</h2>
+
+                                    <div class="m icon-box">
+                                        <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                                        <p>____________________</p>
+                                    </div>
+
+
+                                    <p class="small mg-t-box">
+                                        Submitters are able to create tickets for the projects they are assigned to.
+                                        But they are not able to assign tickets!
+                                    </p>
+                                    <button class="btn btn-danger btn-sm">Login as Submitter</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+       
+    <!-- jquery
+    ============================================ -->
+
+    <script src="~/js/vendor/jquery-1.11.3.min.js"></script>
+    <!-- bootstrap JS       -->
+    <script src="~/js/bootstrap.min.js"></script>
+    <!-- wow JS ================== -->
+    <script src="~/js/wow.min.js"></script>
+   
+    <!-- meanmenu JS
+    ============================================ -->
+    <script src="~/js/jquery.meanmenu.js"></script>
+   
+    <!-- sticky JS      ======== -->
+    <script src="~/js/jquery.sticky.js"></script>
+    <!-- scrollUp JS       ================ -->
+    <script src="~/js/jquery.scrollUp.min.js"></script>
+    <!-- mCustomScrollbar JS        ===== -->
+    <script src="~/js/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="~/js/scrollbar/mCustomScrollbar-active.js"></script>
+    <!-- metisMenu JS       ====== -->
+    <script src="~/js/metisMenu/metisMenu-active.js"></script>
+    <script src="~/js/metisMenu/metisMenu.min.js"></script>
+    <!-- tab JS        ======== -->
+    <script src="~/js/tab.js"></script>
+    <!-- icheck JS       = -->
+    <script src="~/js/icheck/icheck.min.js"></script>
+    <script src="~/js/icheck/icheck-active.js"></script>
+    <!-- plugins JS        ========== -->
+    <script src="~/js/plugins.js"></script>
+    <!-- main JS        =========== -->
+    <script src="~/js/main.js"></script>
+</body>
+
+</html>
+
+

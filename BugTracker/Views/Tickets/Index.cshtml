@@ -1,0 +1,178 @@
+﻿@model IEnumerable<BugTracker.Models.Ticket>
+
+@{
+    ViewBag.Title = "Index";
+}
+<style>
+    .html, body {
+        height: 100% !important;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        background: #ccc;
+        background-repeat: no-repeat !important;
+        background-size: cover !important;
+        background-image: url('../../img/BackGround.png');
+    }
+    .dataTables_wrapper .dataTables_length {
+    float: left !important;
+    }
+    .dataTables_wrapper .dataTables_filter {
+    float: right !important;
+    text-align: right !important;
+    }
+     .product-status-wrap table td {
+        padding: 9px 7px;
+        border-top: 1px solid #152036;
+        color: #fff;
+        font-size: 20px;
+        background: #1b2a47;
+    }
+
+    .product-status-wrap table th {
+        padding: 9px 7px;
+        border-top: 1px solid #152036;
+        color: #fff;
+        font-size: 20px;
+        background: #2b426f;
+    }
+    .product-status-wrap h4 {
+    font-size: 35px;
+    color: #fff;
+    margin-bottom: 20px;
+}
+    .body {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 20px !important;
+    line-height: 1.42857143;
+    color: #333;
+    background-color: #fff;
+}
+
+    .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
+        color:aqua;
+    }
+    select {
+        color: black;
+        background-color: cadetblue;
+    }
+    
+    .product-status-wrap table th {
+        padding: 9px 7px;
+        border-top: 1px solid #152036;
+        color: #fff;
+        font-size: 14px;
+        background: #2b426f;
+    }
+    h2 {
+        color: aqua !important;
+    }    
+    h3 {
+        color: midnightblue !important;
+    }
+</style>
+
+<div class="product-status mg-b-30">
+    <div class="container-fluid">
+        <div class="row">
+            <br /> <br /> <br /> <br /> <br /> <br />
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="product-status-wrap">
+                    <div class="form-group">
+                        <div class="col-lg-12 col-md-12" style="font-size: 20px;">
+                            @Html.ActionLink("Back to DashBoard", "Dashboard", "Home")
+                        </div>
+                    </div>
+                   
+                    <h4 class="title text-center">Index Of Tickets</h4>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Project Name
+                                </th>
+                                <th>
+                                    Developer
+                                </th>
+                                <th>
+                                    Submitter
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Title)
+                                </th>
+                                <th>
+                                    Ticket Priority
+                                </th>
+                                <th>
+                                    Ticket Status
+                                </th>
+                                <th>
+                                    Ticket Type
+                                </th>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Description)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Created)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Updated)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Project.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.AssignedToUser.FirstName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.OwnerUser.FirstName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Title)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TicketPriority.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TicketStatus.StatusName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TicketType.Name)
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Description)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Created)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Updated)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                        @Html.ActionLink("DashBoard", "DashBoard", new { id = item.Id }) |
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })|
+                                        @if (User.IsInRole("Project Manager"))
+                                        {
+                                            @Html.ActionLink("Assign", "AssignTicket", new { id = item.Id })
+                                        }
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+ </div>
+

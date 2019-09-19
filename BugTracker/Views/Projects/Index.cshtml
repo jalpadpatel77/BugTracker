@@ -1,0 +1,191 @@
+﻿@using BugTracker.ViewModels
+@using BugTracker.Helper
+@model IEnumerable<BugTracker.Models.Project>
+@{
+
+    ViewBag.Title = "Index";
+}
+<style>
+    html, body {
+        height: 100%;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        background: #ccc;
+        background-repeat: no-repeat !important;
+        background-size: cover !important;
+        background-image: url('../../img/BackGround.png');
+    }
+
+    .product-status-wrap table td {
+        padding: 9px 7px;
+        border-top: 1px solid #152036;
+        color: #fff;
+        font-size: 20px;
+        background: #1b2a47;
+    }
+
+    .product-status-wrap table th {
+        padding: 9px 7px;
+        border-top: 1px solid #152036;
+        color: #fff;
+        font-size: 20px;
+        background: #2b426f;
+    }
+
+    .product-status-wrap h4 {
+        font-size: 35px;
+        color: #fff;
+        margin-bottom: 20px;
+    }
+
+    body {
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-size: 20px;
+        line-height: 1.42857143;
+        color: #333;
+        background-color: #fff;
+    }
+
+    .dataTables_wrapper .dataTables_length {
+        float: left !important;
+    }
+
+    .dataTables_wrapper .dataTables_filter {
+        float: right !important;
+        text-align: right !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        box-sizing: border-box;
+        display: inline-block;
+        min-width: 1.5em;
+        padding: 0.5em 1em;
+        margin-left: 2px;
+        text-align: center;
+        text-decoration: none !important;
+        cursor: pointer;
+        color: #fff !important;
+        border: 1px solid transparent;
+        border-radius: 2px;
+    }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
+            cursor: default;
+            color: #fff !important;
+            border: 1px solid transparent;
+            background: transparent;
+            box-shadow: none;
+        }
+
+    .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
+        color: antiquewhite;
+    }
+
+    select {
+        color: black;
+        background-color: cadetblue;
+    }
+
+    h2 {
+        color: aqua !important;
+    }
+
+    h3 {
+        color: midnightblue !important;
+    }
+</style>
+
+<div class="product-status mg-b-30">
+    <div class="container-fluid">
+        <div class="row">
+            <br /> <br /> <br /> <br /> <br /> <br />
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="product-status-wrap">
+                    @Html.ActionLink("Back to DashBoard", "DashBoard", "Home")
+                    <h4 class="title text-center">Index Of Projects</h4>
+                    @*@if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                    {
+                           <p>
+                            @Html.ActionLink("Create New", "Create")
+                           </p>
+                    }*@
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Name)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Description)
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Project Manager")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Developer")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Submitter")
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Created)
+                                </th>
+
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var project in Model)
+                            {
+                                var projectHelper = new ProjectsHelper();
+
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => project.Name)
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => project.Description)
+                                    </td>
+                                    <td>
+                                        @foreach (var user in projectHelper.UsersInRoleOnProject(project.Id, "Project Manager"))
+                                        {
+                                            @user <br />
+                                        }
+                                    </td>
+                                    <td>
+                                        @foreach (var user in projectHelper.UsersInRoleOnProject(project.Id, "Developer"))
+                                        {
+                                            @user <br />
+                                        }
+                                    </td>
+                                    <td>
+                                        @foreach (var user in projectHelper.UsersInRoleOnProject(project.Id, "Submitter"))
+                                        {
+                                            @user <br />
+                                        }
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => project.Created)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Details", "Details", new { id = project.Id }) |
+                                        @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                                        {
+                                            @: @Html.ActionLink("Edit", "Edit", new { id = project.Id }) |
+                                            @Html.ActionLink("Delete", "Delete", new { id = project.Id })
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

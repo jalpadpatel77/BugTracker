@@ -1,0 +1,441 @@
+﻿@using BugTracker.Models
+@using BugTracker.Helper
+@using Microsoft.AspNet.Identity
+
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <style>
+        .header-right-info ul.header-right-menu li .author-log {
+            left: -80px !important;
+        }
+        .header-right-info ul.header-right-menu li .dropdown-header-top.author-log li a {
+    padding: 10px 50px !important;;
+    /* display: block; */
+    color: #fff;
+    font-size: 20px;
+        }
+        .auto {
+            /*display:block;*/           
+            padding:5px;
+            margin-top:5px;
+            width:300px;
+            height:200px;
+            overflow:auto;
+         }
+        .badge {
+            display: inline-block;
+            min-width: 10px;
+            padding: 3px 7px;
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 1;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            background-color: red !important;
+            border-radius: 10px !important;
+        }
+        .text-success {
+    color:aqua !important;
+}
+        .mathscroll {
+            height: 400px;
+            width: 800px;
+            overflow-x: auto;
+        }
+
+        .standardW {
+            width: 135px;
+            margin-top: 10px;
+        }
+        h1{
+            color:#fff !important;
+        }
+
+        h2 {
+            font-family: 'Bookman Old Style';
+            color: aqua !important;
+        }
+    </style>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Bug Tracker</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- favicon
+        ============================================ -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/img/BugIcon2.png">
+
+
+    <!-- Google Fonts
+        ============================================ -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
+    <!-- Bootstrap CSS
+        ============================================ -->
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <!-- Bootstrap CSS
+
+            ============================================ -->
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <!-- nalika Icon CSS
+        ============================================ -->
+    <link href="~/Content/nalika-icon.css" rel="stylesheet" />
+    
+    <!-- animate CSS
+        ============================================ -->
+    <link href="~/Content/animate.css" rel="stylesheet" />
+    <!-- normalize CSS
+        ============================================ -->
+    <link href="~/Content/normalize.css" rel="stylesheet" />
+    <!-- meanmenu icon CSS
+     ============================================ -->
+    <link href="~/Content/meanmenu.min.css" rel="stylesheet" />
+    <!-- main CSS
+        ============================================ -->
+    <link href="~/Content/main.css" rel="stylesheet" />
+
+    <!-- morrisjs CSS
+        ============================================ -->
+    @*<link href="~/Content/morrisjs/morris.css" rel="stylesheet" />*@
+    <!-- mCustomScrollbar CSS
+    ============================================ -->
+    <link href="~/Content/scrollbar/jquery.mCustomScrollbar.min.css" rel="stylesheet" />
+    <!--Table
+        -->
+    <link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
+
+    <!-- metisMenu CSS
+        ============================================ -->
+    <link href="~/Content/metisMenu/metisMenu-vertical.css" rel="stylesheet" />
+    <link href="~/Content/metisMenu/metisMenu.min.css" rel="stylesheet" />
+    
+    <!-- style CSS
+        ============================================ -->
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <!-- responsive CSS
+        ============================================ -->
+    <link href="~/Content/responsive.css" rel="stylesheet" />
+   
+    <!--MorrisChart
+        ============================================ -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+
+    <script src="~/Scripts/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+<body>
+
+
+    <!--sidebar starts here-->
+    <div class="left-sidebar-pro">
+        <nav id="sidebar" class="">
+            <div class="sidebar-header">
+                <a href="index.html">
+                    <img class="main-logo"
+                         src="~/img/BugIcon3.png" alt="" />
+                    <h2 class=" title text-center ">Debug-Me</h2>
+                </a>
+            </div>
+            <div class="nalika-profile">
+                <div class="profile-dtl">
+                    @if (Request.IsAuthenticated) // checks that if user is logged in
+                    {
+                        var userId = User.Identity.GetUserId();
+                        var db = new ApplicationDbContext();
+                        var user = db.Users.Find(userId);
+                        if (!string.IsNullOrEmpty(user.AvatarUrl))
+                        {
+                            <img src="@user.AvatarUrl" alt="" />
+                          
+                        }
+                        else
+                        {
+
+                            <img src="@Url.Content("~/Avatars/Avatar1.png")" />
+                        }
+
+                        <h2><span class="min-dtn">@user.FullName</span></h2>
+
+
+
+                    }
+                    
+                </div>
+
+            </div>
+            <div class="left-custom-menu-adp-wrap comment-scrollbar">
+                <nav class="sidebar-nav left-sidebar-menu-pro">
+                    <ul class="metismenu" id="menu1">
+                        <li>
+                            <a class="" href="@Url.Action("DashBoard","Home")">
+                                <i class="fa fa-dashboard"></i>
+
+                                <span class="mini-click-non">DashBoard</span>
+                            </a>
+                            
+                        </li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li>
+                                <a class="has-arrow" href="index.html">
+                                    <i class="fa fa-users"></i>
+                                    <span class="mini-click-non">UserManagement</span>
+                                </a>
+                                <ul class="submenu-angle" aria-expanded="true">
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <li><a title="Dashboard v.1" href="@Url.Action("UserIndex","Admin")"><span class="mini-sub-pro">User Index</span></a></li>
+                                        
+                                        <li><a title="Dashboard v.2" href="@Url.Action("ManageRoles", "Admin")"><span class="mini-sub-pro">Manage Roles</span></a></li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+                        <li>
+                            <a class="has-arrow" href="mailbox.html" aria-expanded="false">
+                                <i class="fa fa-briefcase"></i>
+                                <span class="mini-click-non">ProjectManagement</span>
+                            </a>
+                            <ul class="submenu-angle" aria-expanded="false">
+
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <li><a title="Index Of Projects" href="@Url.Action("Index","Projects")"><span class="mini-sub-pro">All Projects</span></a></li>
+                                }
+                                @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                                {
+                                    <li><a title="Create Projects" href="@Url.Action("Create", "Projects")"><span class="mini-sub-pro">Create Projects</span></a></li>
+                                }
+
+                                @if (User.IsInRole("Project Manager") || User.IsInRole("Developer") || User.IsInRole("Submitter"))
+                                {
+                                    <li><a title="Index Of My Projects" href="@Url.Action("MyProjects","Projects")"><span class="mini-sub-pro">My Projects</span></a></li>
+                                }                                
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="has-arrow" href="mailbox.html" aria-expanded="false"><i class="fa fa-ticket"></i> <span class="mini-click-non">TicketManagement</span></a>
+                            <ul class="submenu-angle" aria-expanded="false">
+
+                                @if (User.IsInRole("Developer"))
+                                {
+                                    <li><a title="TicketNotification" href="@Url.Action("Index", "TicketNotifications")"><span class="mini-sub-pro">TicketNotification</span></a></li>
+                                }
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <li><a title="List All Tickets" href="@Url.Action("Index","Tickets")"><span class="mini-sub-pro">List All Tickets</span></a></li>
+                                }
+                                @if (User.IsInRole("Developer") || User.IsInRole("Submitter") || User.IsInRole("Project Manager"))
+                                {
+                                    <li><a title="List My Tickets" href="@Url.Action("MyIndex", "Tickets")"><span class="mini-sub-pro">List My Tickets</span></a></li>
+                                }
+
+                                @if (User.IsInRole("Submitter"))
+                                {
+                                    <li><a title="Create a ticket" href="@Url.Action("Create","Tickets")"><span class="mini-sub-pro">Create a ticket</span></a></li>
+                                }
+                                @if (User.IsInRole("Developer") || User.IsInRole("Submitter") || User.IsInRole("Project Manager") || User.IsInRole("Admin"))
+                                {
+                                    <li><a title="TicketNotification" href="@Url.Action("Index","TicketHistories")"><span class="mini-sub-pro">Ticket History</span></a></li>
+                                }
+                            </ul>
+                        </li>
+                        <li id="removable">
+                            <a class="has-arrow" href="#" aria-expanded="false"><i class="icon nalika-new-file icon-wrap"></i> <span class="mini-click-non">User Profile</span></a>
+                            <ul class="submenu-angle" aria-expanded="false">
+
+                                <li><a title="Change Name" href="@Url.Action("EditProfile","UserProfileView")"><span class="mini-sub-pro">Edit Profile</span></a></li>
+                                <li><a title="Change Password" href="@Url.Action("ChangePassword","Manage")"><span class="mini-sub-pro">Change Password</span></a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Start Welcome area -->
+    <div class="all-content-wrapper">
+        <div class="header-advance-area">
+            <div class="header-top-area">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="header-top-wraper">
+                                <div class="row">
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="header-right-info">
+                                            <ul class="nav navbar-nav mai-top-nav header-right-menu">
+
+                                                <li class="nav-item">
+                                                    <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
+                                                        <i class="icon nalika-alarm" aria-hidden="true"></i>
+                                                        <span class="badge">@NotificationHelper.GetNewUserNotificationCount()</span>
+                                                    </a>
+                                                    <div role="menu" class="notification-author dropdown-menu animated zoomIn ">
+                                                      
+                                                        <div class="notification-view ">
+                                                           
+                                                            <h1 class="title text-center">Notifications</h1>
+
+                                                        </div>
+
+                                                        <div class="notification-content auto ">
+
+                                                            <!--Notification Content Goes here-->
+                                                            <ul>
+
+                                                                @foreach (var notification in NotificationHelper.GetUnreadUserNotifications().ToList())
+                                                                {
+                                                                    <li>
+                                                                        <hr size=3 />
+                                                                        @using (Html.BeginForm("MarkAsRead", "TicketNotifications"))
+                                                                        {
+                                                                            @Html.AntiForgeryToken()
+                                                                            @Html.Hidden("Id", notification.Id)
+                                                                            <div class="row">
+
+                                                                                <br />
+                                                                                <div class=" col-md-12  ">
+                                                                                    @*SubJect*@
+                                                                                    <span class=" title text-success">@notification.Subject</span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <br />
+                                                                            <div class="row">
+                                                                                <div class="col-md-12">
+                                                                                    <span class="message text-justify text-success"><b>@notification.NotificationBody</b></span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <br />
+                                                                            <div class="row">
+                                                                                <div class="col-md-12 text-center">
+                                                                                    <button type="submit" class="btn btn-sm btn-danger">Mark as read</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        }
+                                                                    </li>
+                                                                }
+                                                            </ul>
+                                                            <hr />
+                                                            <div class="text-center text-danger">
+                                                                <a href="@Url.Action("MyNotifications","TicketNotifications")" class="view-more">ViewAll</a>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    @*</div>*@
+                                                </li>
+
+                                                <li class="nav-item">
+                                                    <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle standardW">
+                                                        <i class="User"></i>
+                                                        @if (Request.IsAuthenticated)
+                                                        {
+                                                            var userId = User.Identity.GetUserId();
+                                                            var db = new ApplicationDbContext();
+                                                            var user = db.Users.Find(userId);
+
+                                                            <span class="name">@user.FullName</span>
+                                                        }
+
+                                                        <i class="icon nalika-down-arrow nalika-angle-dw"></i>
+                                                    </a>
+                                                    <ul role="menu" class=" title dropdown-header-top author-log dropdown-menu animated zoomIn">
+
+                                                        <li>
+                                                            <a href="@Url.Action("MyProfile","UserProfileView")"><span class="icon nalika-user author-log-ic"></span> My Profile</a>
+
+                                                        </li>
+                                                        <li>
+                                                            @Html.Partial("_LoginPartial")
+                                                        </li>
+
+                                                    </ul>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <!--Scripts-->
+    <!-- jquery
+    ==== -->
+
+    <script src="~/Scripts/vendor/jquery-1.12.4.min.js"></script>
+    <!-- bootstrap JS
+    ============================================ -->
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+    <!-- wow JS  == -->
+
+    <script src="~/Scripts/wow.min.js"></script>
+    <!-- price-slider JS         -->
+    <script src="~/Scripts/jquery-price-slider.js"></script>
+
+    <!-- meanmenu JS       ===== -->
+    <script src="~/Scripts/jquery.meanmenu.js"></script>
+
+   
+    <!-- sticky JS       = -->
+    <script src="~/Scripts/jquery.sticky.js"></script>
+
+    <!-- scrollUp JS        == -->
+    <script src="~/Scripts/jquery.scrollUp.min.js"></script>
+
+    <!-- mCustomScrollbar JS         -->
+    <script src="~/Scripts/scrollbar/mCustomScrollbar-active.js"></script>
+    <script src="~/Scripts/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+    <!-- metisMenu JS        -->
+    <script src="~/Scripts/metisMenu/metisMenu.min.js"></script>
+    <script src="~/Scripts/metisMenu/metisMenu-active.js"></script>
+    <!-- sparkline JS         -->
+    <script src="~/Scripts/sparkline/jquery.sparkline.min.js"></script>
+    <script src="~/Scripts/sparkline/jquery.charts-sparkline.js"></script>
+   
+   
+    <!-- float JS        -->
+    <script src="~/Scripts/flot/jquery.flot.js"></script>
+    <script src="~/Scripts/flot/jquery.flot.resize.js"></script>
+    <script src="~/Scripts/flot/curvedLines.js"></script>
+    <script src="~/Scripts/flot/flot-active.js"></script>
+
+    <!-- plugins JS         -->
+
+    <script src="~/Scripts/plugins.js"></script>
+    <!-- main JS       = -->
+    <script src="~/Scripts/main.js"></script>
+    <script src="~/js/jquery.dataTables.min.js"></script>
+
+    <script src="~/js/charts/Chart.js"></script>
+    <script src="~/js/charts/rounded-chart.js"></script>
+
+    <script>
+        $('.table').DataTable();
+        $('#mytable').DataTable();
+    </script>
+
+    <!--MorrisChart JS-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+
+
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>
